@@ -78,10 +78,10 @@ class MetaMethods {
 
         PlanarImage.metaClass.toSquare = { width, height, corners ->
             PerspectiveTransform transform = PerspectiveTransform.getQuadToQuad(
+                    0, 0,
+                    width, 0,
                     width, height,
                     0, height,
-                    width, 0,
-                    0, 0,
                     corners[3].x, corners[3].y,
                     corners[2].x, corners[2].y,
                     corners[1].x, corners[1].y,

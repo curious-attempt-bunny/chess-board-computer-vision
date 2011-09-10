@@ -25,9 +25,9 @@ class ConfigureBoard {
             def draw = {
                 g.setXORMode(Color.WHITE)
                 g.drawLine(coords[0], coords[1])
-                g.drawLine(coords[0], coords[2])
-                g.drawLine(coords[1], coords[3])
+                g.drawLine(coords[1], coords[2])
                 g.drawLine(coords[2], coords[3])
+                g.drawLine(coords[3], coords[0])
                 g.drawString("a1", coords[0])
                 g.drawString("h1", coords[1])
                 g.drawString("h8", coords[2])
@@ -35,8 +35,16 @@ class ConfigureBoard {
             }
 
             def drawExample = {
+                g.setXORMode(Color.WHITE)
                 def example = sourceImage.toSquare(480,480,coords)
+                exampleGraphics.setPaintMode()
                 exampleGraphics.drawRenderedImage(example, new AffineTransform())
+                exampleGraphics.setXORMode(Color.WHITE)
+                def size = (int)(480/8)
+                (1..7).each { x ->
+                    exampleGraphics.drawLine(x*size, 0, x*size, 480)
+                    exampleGraphics.drawLine(0, x*size, 480, x*size)
+                }
             }
 
             draw()

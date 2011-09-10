@@ -13,7 +13,7 @@ class RecordGame {
     static void main(String[] args) {
         new MetaMethods() // registers methods
 
-        def coords = [[x:22, y:412], [x:620, y:406], [x:150, y:171], [x:488, y:167]]
+        def coords = [[x:22, y:412], [x:620, y:406], [x:488, y:167], [x:150, y:171]]
         def sourceImage = PlanarImage.capture
         def exampleImage = sourceImage.toSquare(480,480,coords)
         def exampleGraphics
