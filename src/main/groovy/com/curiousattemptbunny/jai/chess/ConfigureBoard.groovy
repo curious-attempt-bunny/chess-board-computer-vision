@@ -6,6 +6,7 @@ import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.Canvas
 import javax.media.jai.PlanarImage
+import java.awt.geom.AffineTransform
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,23 +16,31 @@ import javax.media.jai.PlanarImage
  * To change this template use File | Settings | File Templates.
  */
 class ConfigureBoard {
+    def exampleGraphics
     def coords
+    def sourceImage
 
     def configure() {
-        PlanarImage.capture.show { Canvas canvas, Graphics2D g ->
+        sourceImage.show { Canvas canvas, Graphics2D g ->
             def draw = {
                 g.setXORMode(Color.WHITE)
                 g.drawLine(coords[0], coords[1])
                 g.drawLine(coords[0], coords[2])
                 g.drawLine(coords[1], coords[3])
                 g.drawLine(coords[2], coords[3])
-                g.drawString("a8", coords[0])
-                g.drawString("h8", coords[1])
-                g.drawString("a1", coords[2])
-                g.drawString("h1", coords[3])
+                g.drawString("a1", coords[0])
+                g.drawString("h1", coords[1])
+                g.drawString("h8", coords[2])
+                g.drawString("a8", coords[3])
+            }
+
+            def drawExample = {
+                def example = sourceImage.toSquare(480,480,coords)
+                exampleGraphics.drawRenderedImage(example, new AffineTransform())
             }
 
             draw()
+            drawExample()
 
             def dragging = null
 
@@ -45,12 +54,13 @@ class ConfigureBoard {
                 },
                 mouseClicked: {
                     draw()
-                    def pre = coords.clone()
-                    coords.clear()
-                    coords << pre[2] << pre[0] << pre[3] << pre[1]
+                    coords << coords.remove(0)
                     draw()
+                    drawExample()
                 },
-                mouseReleased: {},
+                mouseReleased: {
+                    drawExample()
+                },
                 mouseEntered: {},
                 mouseExited: {}] as MouseListener
             )

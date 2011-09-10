@@ -14,7 +14,10 @@ class RecordGame {
         new MetaMethods() // registers methods
 
         def coords = [[x:22, y:412], [x:620, y:406], [x:150, y:171], [x:488, y:167]]
-
-        new ConfigureBoard(coords:coords).configure()
+        def sourceImage = PlanarImage.capture
+        def exampleImage = sourceImage.toSquare(480,480,coords)
+        def exampleGraphics
+        exampleImage.show { exampleGraphics = it }
+        new ConfigureBoard(coords:coords, sourceImage:sourceImage, exampleGraphics:exampleGraphics).configure()
     }
 }

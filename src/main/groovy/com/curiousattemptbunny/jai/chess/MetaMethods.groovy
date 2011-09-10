@@ -11,6 +11,7 @@ import javax.media.jai.WarpPerspective
 import java.awt.image.renderable.ParameterBlock
 import javax.media.jai.JAI
 import javax.swing.JFrame
+import javax.media.jai.Interpolation
 
 /**
  * Created by IntelliJ IDEA.
@@ -77,18 +78,19 @@ class MetaMethods {
 
         PlanarImage.metaClass.toSquare = { width, height, corners ->
             PerspectiveTransform transform = PerspectiveTransform.getQuadToQuad(
-                    0, 0,
-                    width, 0,
                     width, height,
                     0, height,
-                    corners[0].x, corners[0].y,
-                    corners[1].x, corners[1].y,
+                    width, 0,
+                    0, 0,
                     corners[3].x, corners[3].y,
-                    corners[2].x, corners[2].y )
+                    corners[2].x, corners[2].y,
+                    corners[1].x, corners[1].y,
+                    corners[0].x, corners[0].y
+            )
 
             WarpPerspective wp = new WarpPerspective(transform);
 
-            pb = (new ParameterBlock()).addSource(delegate);
+            def pb = (new ParameterBlock()).addSource(delegate);
             pb.add(wp);
             pb.add(Interpolation.getInstance(Interpolation.INTERP_BICUBIC));
 
