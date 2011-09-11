@@ -12,6 +12,9 @@ import java.awt.image.renderable.ParameterBlock
 import javax.media.jai.JAI
 import javax.swing.JFrame
 import javax.media.jai.Interpolation
+import javax.media.jai.operator.SubtractDescriptor
+import javax.media.jai.operator.OrDescriptor
+import javax.media.jai.operator.XorDescriptor
 
 /**
  * Created by IntelliJ IDEA.

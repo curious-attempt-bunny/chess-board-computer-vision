@@ -36,14 +36,14 @@ class ConfigureBoard {
 
             def drawExample = {
                 g.setXORMode(Color.WHITE)
-                def example = sourceImage.toSquare(480,480,coords)
+                def example = sourceImage.toSquare(384,384,coords)
                 exampleGraphics.setPaintMode()
                 exampleGraphics.drawRenderedImage(example, new AffineTransform())
                 exampleGraphics.setXORMode(Color.WHITE)
-                def size = (int)(480/8)
+                def size = (int)(384/8)
                 (1..7).each { x ->
-                    exampleGraphics.drawLine(x*size, 0, x*size, 480)
-                    exampleGraphics.drawLine(0, x*size, 480, x*size)
+                    exampleGraphics.drawLine(x*size, 0, x*size, 384)
+                    exampleGraphics.drawLine(0, x*size, 384, x*size)
                 }
             }
 
@@ -81,6 +81,7 @@ class ConfigureBoard {
                     dragging.x = e.x
                     dragging.y = e.y
                     draw()
+                    println "def coords = ["+coords.collect { "[x:$it.x, y:$it.y]" }.join(", ")+"]"
                 }] as MouseMotionListener
             )
         }

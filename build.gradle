@@ -11,5 +11,6 @@ dependencies {
 
 	compile 'javax.media:jai_codec:1.1.3'
 	compile 'javax.media:jai_core:1.1.3'
+	compile 'skeeto:october-chess-engine:20110825'
 }
 
