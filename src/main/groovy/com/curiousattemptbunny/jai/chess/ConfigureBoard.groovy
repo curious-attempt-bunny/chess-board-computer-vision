@@ -17,38 +17,14 @@ import java.awt.geom.AffineTransform
  */
 class ConfigureBoard {
     def exampleGraphics
+    def sourceGraphics
     def coords
     def sourceImage
 
     def configure() {
         sourceImage.show { Canvas canvas, Graphics2D g ->
-            def draw = {
-                g.setXORMode(Color.WHITE)
-                g.drawLine(coords[0], coords[1])
-                g.drawLine(coords[1], coords[2])
-                g.drawLine(coords[2], coords[3])
-                g.drawLine(coords[3], coords[0])
-                g.drawString("a1", coords[0])
-                g.drawString("h1", coords[1])
-                g.drawString("h8", coords[2])
-                g.drawString("a8", coords[3])
-            }
-
-            def drawExample = {
-                g.setXORMode(Color.WHITE)
-                def example = sourceImage.toSquare(384,384,coords)
-                exampleGraphics.setPaintMode()
-                exampleGraphics.drawRenderedImage(example, new AffineTransform())
-                exampleGraphics.setXORMode(Color.WHITE)
-                def size = (int)(384/8)
-                (1..7).each { x ->
-                    exampleGraphics.drawLine(x*size, 0, x*size, 384)
-                    exampleGraphics.drawLine(0, x*size, 384, x*size)
-                }
-            }
-
-            draw()
-            drawExample()
+            sourceGraphics = g
+            redraw()
 
             def dragging = null
 
@@ -61,13 +37,12 @@ class ConfigureBoard {
                     }
                 },
                 mouseClicked: {
-                    draw()
                     coords << coords.remove(0)
-                    draw()
-                    drawExample()
+                    redraw()
+//                    drawExample()
                 },
                 mouseReleased: {
-                    drawExample()
+//                    drawExample()
                 },
                 mouseEntered: {},
                 mouseExited: {}] as MouseListener
@@ -77,13 +52,26 @@ class ConfigureBoard {
                 [mouseMoved: {},
                 mouseDragged: { e ->
                     if (dragging == null) return
-                    draw()
                     dragging.x = e.x
                     dragging.y = e.y
-                    draw()
+                    redraw()
                     println "def coords = ["+coords.collect { "[x:$it.x, y:$it.y]" }.join(", ")+"]"
                 }] as MouseMotionListener
             )
         }
+    }
+
+    def redraw() {
+        sourceGraphics.setPaintMode()
+        sourceGraphics.drawRenderedImage(sourceImage, new AffineTransform())
+        sourceGraphics.setXORMode(Color.WHITE)
+        sourceGraphics.drawLine(coords[0], coords[1])
+        sourceGraphics.drawLine(coords[1], coords[2])
+        sourceGraphics.drawLine(coords[2], coords[3])
+        sourceGraphics.drawLine(coords[3], coords[0])
+        sourceGraphics.drawString("a1", coords[0])
+        sourceGraphics.drawString("h1", coords[1])
+        sourceGraphics.drawString("h8", coords[2])
+        sourceGraphics.drawString("a8", coords[3])
     }
 }

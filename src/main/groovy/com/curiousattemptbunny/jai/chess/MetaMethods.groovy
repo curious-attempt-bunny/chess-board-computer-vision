@@ -35,9 +35,8 @@ class MetaMethods {
             return JAI.create("fileload", delegate.absolutePath)
         }
 
-        PlanarImage.metaClass.getWrite = {
-            JAI.create("filestore", delegate, new File(home, "step"+next+".png").absolutePath)
-            next++
+        PlanarImage.metaClass.write = { file ->
+            JAI.create("filestore", delegate, file.absolutePath)
             delegate
         }
 

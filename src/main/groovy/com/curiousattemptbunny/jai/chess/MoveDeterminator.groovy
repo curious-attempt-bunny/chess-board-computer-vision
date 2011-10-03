@@ -40,7 +40,8 @@ class MoveDeterminator {
     }
 
     PlanarImage normalize(image) {
-        image.toSquare(384,384,coords)
+        //image.toSquare(384,384,coords)
+        image
     }
 
     Map<Position, Long> allActivity(PlanarImage image) {
